@@ -35,7 +35,6 @@ export default {
       error: null,
       location: "",
       temperature: null,
-      // Add other weather data properties you want to fetch
       weatherCondition: "",
       conditionIconUrl: "",
       windSpeed: null,
@@ -53,7 +52,7 @@ export default {
       this.error = null;
 
       try {
-        const apiKey = "5c92fd8788164c2d8af193836242202"; // Replace with your actual key
+        const apiKey = "5c92fd8788164c2d8af193836242202";
         const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
 
         const response = await axios.get(url);
@@ -61,7 +60,6 @@ export default {
 
         this.location = data.location.name;
         this.temperature = data.current.temp_c;
-        // Extract other relevant data from the response
         this.weatherCondition = data.current.condition.text;
         this.conditionIconUrl = `https:${data.current.condition.icon}`;
         this.windSpeed = data.current.wind_kph;

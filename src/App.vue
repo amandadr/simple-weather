@@ -30,8 +30,12 @@ export default {
   },
   mounted() {
     // Fetch initial data on app load:
-    const initialLocation = "Dartmouth"; // Set a default or get from geolocation
+    const initialLocation = "Dartmouth"; // Set a default
     this.searchForWeather(initialLocation);
   },
 };
 </script>
+
+<style>
+@import "./app.css";
+</style>
