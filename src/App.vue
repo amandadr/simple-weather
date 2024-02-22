@@ -1,30 +1,33 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <SearchForm @search="searchForWeather" />
+    <WeatherData ref="weatherData" :location="currentLocation" />
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import SearchForm from "./components/SearchForm.vue";
+import WeatherData from "./components/WeatherData.vue";
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+export default {
+  name: "App",
+  components: {
+    SearchForm,
+    WeatherData,
+  },
+  data() {
+    return {
+      currentLocation: "", // Or a default location
+    };
+  },
+  methods: {
+    searchForWeather(location) {
+      this.currentLocation = location;
+      this.$refs.weatherData.fetchWeatherData(location); // Call the function
+    },
+  },
+  mounted() {
+    // Consider fetching the weather for the user's current location initially
+  },
+};
+</script>
