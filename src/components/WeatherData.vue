@@ -4,8 +4,22 @@
     <div v-else-if="error">Error fetching data: {{ error }}</div>
 
     <div v-else>
-      <h2>{{ location }}</h2>
-      <p>Temperature: {{ temperature }}</p>
+      <h2>{{ location }}, {{ currentDateTime() }}</h2>
+      <p>
+        <img :src="conditionIconUrl" :alt="weatherCondition" />
+        {{ weatherCondition }}
+      </p>
+      <div class="details">
+        <p>
+          Temperature: {{ temperature }} &deg;C (Feels like
+          {{ feelsLike }} &deg;C)
+        </p>
+        <p>Wind: {{ windSpeed }} kph ({{ windDirection }})</p>
+        <p>Precipitation: {{ precipitation }} mm</p>
+        <p>Clouds: {{ clouds }}%</p>
+        <p>Humidity: {{ humidity }}%</p>
+        <p>UV Index: {{ uv }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -22,6 +36,15 @@ export default {
       location: "",
       temperature: null,
       // Add other weather data properties you want to fetch
+      weatherCondition: "",
+      conditionIconUrl: "",
+      windSpeed: null,
+      windDirection: "",
+      precipitation: null,
+      clouds: null,
+      humidity: null,
+      feelsLike: null,
+      uv: null,
     };
   },
   methods: {
@@ -39,11 +62,28 @@ export default {
         this.location = data.location.name;
         this.temperature = data.current.temp_c;
         // Extract other relevant data from the response
+        this.weatherCondition = data.current.condition.text;
+        this.conditionIconUrl = `https:${data.current.condition.icon}`;
+        this.windSpeed = data.current.wind_kph;
+        this.windDirection = data.current.wind_dir;
+        this.precipitation = data.current.precip_mm;
+        this.clouds = data.current.cloud;
+        this.humidity = data.current.humidity;
+        this.feelsLike = data.current.feelslike_c;
+        this.uv = data.current.uv;
       } catch (error) {
         this.error = error.message;
       } finally {
         this.isLoading = false;
       }
+    },
+    currentDateTime() {
+      const now = new Date();
+      const options = {
+        dateStyle: "medium",
+        timeStyle: "short",
+      };
+      return now.toLocaleString("en-US", options); // Adjust locale as needed
     },
   },
 };
