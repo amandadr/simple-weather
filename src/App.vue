@@ -17,17 +17,21 @@ export default {
   },
   data() {
     return {
-      currentLocation: "", // Or a default location
+      currentLocation: "Dartmouth",
     };
   },
   methods: {
     searchForWeather(location) {
       this.currentLocation = location;
-      this.$refs.weatherData.fetchWeatherData(location); // Call the function
+      this.$nextTick(() => {
+        this.$refs.weatherData.fetchWeatherData(location);
+      });
     },
   },
   mounted() {
-    // Consider fetching the weather for the user's current location initially
+    // Fetch initial data on app load:
+    const initialLocation = "Dartmouth"; // Set a default or get from geolocation
+    this.searchForWeather(initialLocation);
   },
 };
 </script>
