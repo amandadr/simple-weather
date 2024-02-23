@@ -1,34 +1,34 @@
 <template>
   <div class="weather-data">
-    <div v-if="isLoading">Loading weather data...</div>
-    <div v-else-if="error">Error fetching data: {{ error }}</div>
-
-    <div v-else>
-      <h2>{{ location }}, {{ currentDateTime() }}</h2>
+    <div>
+      <h2>{{ location }}, {{ formattedDateTime }}</h2>
       <p>
         <img :src="conditionIconUrl" :alt="weatherCondition" />
         {{ weatherCondition }}
       </p>
-      <div class="details">
-        <p>
-          Temperature: {{ temperature }} &deg;C (Feels like
-          {{ feelsLike }} &deg;C)
-        </p>
-        <p>Wind: {{ windSpeed }} kph ({{ windDirection }})</p>
-        <p>Precipitation: {{ precipitation }} mm</p>
-        <p>Clouds: {{ clouds }}%</p>
-        <p>Humidity: {{ humidity }}%</p>
-        <p>UV Index: {{ uv }}</p>
-      </div>
+      <WeatherDetails
+        :temperature="temperature"
+        :feelsLike="feelsLike"
+        :windSpeed="windSpeed"
+        :windDirection="windDirection"
+        :precipitation="precipitation"
+        :clouds="clouds"
+        :humidity="humidity"
+        :uv="uv"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import WeatherService from "../services/weatherService";
+import WeatherDetails from "./WeatherDetails.vue";
 
 export default {
   name: "WeatherData",
+  components: {
+    WeatherDetails,
+  },
   data() {
     return {
       isLoading: false,
@@ -52,11 +52,7 @@ export default {
       this.error = null;
 
       try {
-        const apiKey = "5c92fd8788164c2d8af193836242202";
-        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
-
-        const response = await axios.get(url);
-        const data = response.data;
+        const data = await WeatherService.fetchWeather(location);
 
         this.location = data.location.name;
         this.temperature = data.current.temp_c;
@@ -75,12 +71,11 @@ export default {
         this.isLoading = false;
       }
     },
-    currentDateTime() {
+  },
+  computed: {
+    formattedDateTime() {
       const now = new Date();
-      const options = {
-        dateStyle: "medium",
-        timeStyle: "short",
-      };
+      const options = { dateStyle: "medium", timeStyle: "short" };
       return now.toLocaleString("en-US", options); // Adjust locale as needed
     },
   },
