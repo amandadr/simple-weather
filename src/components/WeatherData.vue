@@ -1,11 +1,11 @@
 <template>
   <div class="weather-data">
     <div>
-      <h2>{{ location }}, {{ formattedDateTime }}</h2>
-      <p>
-        <img :src="conditionIconUrl" :alt="weatherCondition" />
+      <h2>{{ location }}, {{ region }}<br />{{ formattedDateTime }}</h2>
+      <img :src="conditionIconUrl" :alt="weatherCondition" />
+      <h3>
         {{ weatherCondition }}
-      </p>
+      </h3>
       <WeatherDetails
         :temperature="temperature"
         :feelsLike="feelsLike"
@@ -34,6 +34,8 @@ export default {
       isLoading: false,
       error: null,
       location: "",
+      region: "",
+      country: "",
       temperature: null,
       weatherCondition: "",
       conditionIconUrl: "",
@@ -55,6 +57,8 @@ export default {
         const data = await WeatherService.fetchWeather(location);
 
         this.location = data.location.name;
+        this.region = data.location.region;
+        this.country = data.location.country;
         this.temperature = data.current.temp_c;
         this.weatherCondition = data.current.condition.text;
         this.conditionIconUrl = `https:${data.current.condition.icon}`;
