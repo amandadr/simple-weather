@@ -1,20 +1,23 @@
 <template>
   <div id="app" :class="{ 'dark-theme': isDarkTheme }">
     <SearchForm @search="searchForWeather" />
-    <button @click="toggleTheme">Toggle Theme</button>
+    <button @click="toggleTheme" class="theme-btn">Toggle Theme</button>
     <WeatherData ref="weatherData" :location="currentLocation" />
+    <WeatherForecast ref="weatherForecast" :location="currentLocation" />
   </div>
 </template>
 
 <script>
 import SearchForm from "./components/SearchForm.vue";
 import WeatherData from "./components/WeatherData.vue";
+import WeatherForecast from "./components/WeatherForecast.vue";
 
 export default {
   name: "App",
   components: {
     SearchForm,
     WeatherData,
+    WeatherForecast,
   },
   data() {
     return {
@@ -41,6 +44,7 @@ export default {
       this.currentLocation = location;
       this.$nextTick(() => {
         this.$refs.weatherData.fetchWeatherData(location);
+        this.$refs.weatherForecast.fetchForecast(location, 7);
       });
     },
     toggleTheme() {

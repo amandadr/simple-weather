@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import WeatherService from "../services/weatherService";
+import weatherService from "../services/weatherService";
 import WeatherDetails from "./WeatherDetails.vue";
 
 export default {
@@ -54,7 +54,7 @@ export default {
       this.error = null;
 
       try {
-        const data = await WeatherService.fetchWeather(location);
+        const data = await weatherService.fetchWeather(location);
 
         this.location = data.location.name;
         this.region = data.location.region;

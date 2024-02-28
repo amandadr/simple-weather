@@ -32,16 +32,17 @@ h2 {
 input[type="text"] {
   width: calc(100vw - 22px);
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #bababa;
   border-radius: 5px;
   font-size: 16px;
+  margin-bottom: 4px;
 }
 
 button {
   background-color: #428bca;
   color: #fff;
   padding: 10px 15px;
-  border: none;
+  border: 1px solid #27547b; /* Slightly darker blue */
   border-radius: 5px;
   cursor: pointer;
 }
@@ -50,6 +51,29 @@ button:hover {
   background-color: #357ebd; /* Slightly darker blue on hover */
 }
 
+.forecast-title {
+  margin-left: 1.5rem;
+}
+.forecast-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px auto; /* Center the container horizontally */
+  max-width: 90%;
+}
+.forecast-item {
+  text-align: center;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #fff; /* Light theme background */
+  box-shadow: 1px 1px 2px 5px rgba(0, 0, 0, 0.2);
+  flex: 1 0 200px; /* Ensure a minimum width of 200px, but allow flexibility */
+}
+
+.theme-btn {
+  margin-top: 10px;
+}
 /* Media Queries */
 .dark-theme {
   background-color: #333; /* Dark background */
@@ -68,6 +92,10 @@ button:hover {
     background-color: #555; /* Slightly darker blue on hover */
   }
   .weather-data {
+    box-shadow: 1px 1px 2px 5px rgba(255, 255, 255, 0.2);
+  }
+  .forecast-item {
+    background-color: #666; /* Adjust to match your dark theme background */
     box-shadow: 1px 1px 2px 5px rgba(255, 255, 255, 0.2);
   }
 }
